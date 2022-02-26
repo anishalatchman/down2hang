@@ -12,7 +12,7 @@ Languages/Packages used:
 from icalendar import Calendar, Event
 from datetime import datetime
 from pytz import UTC # provides UTC timezone
-from StudentCourse import Course, Student
+from StudentCourse import Course, Student, Students
 from Hangout import Hangout
 
 def convert_ical_to_courses(filename: str) -> list[Course]:
@@ -49,3 +49,20 @@ def convert_to_12_hour(hour: int) -> int:
         return hour - 12
     else:
         return hour
+
+def ouput_group_availabilities(group: Students) -> None:
+    """Return avaialble times for all students in group.
+
+    Return empty list if every student has no availability.
+
+    Hours are stored from 0-23, then converted to 12-hr time in convert_to_12_hour().
+    """
+    str_hours = ""
+    for student in group.students:
+        for hour in student.availabiltiy:
+            str_hours += ', ' + convert_to_12_hour(hour)
+        if str_hours == "":
+            output = "Uh oh. f{student.name} has no available hours."
+        else:
+            output = "f{student.name} is available at f{str_hours}"
+

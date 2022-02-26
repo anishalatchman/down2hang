@@ -101,12 +101,12 @@ class Students:
                 available_students.append(student)
         return available_students
 
-    def find_group_availability(self) -> list:
-        """Return common times when all students in this group are available
-       
-        Hours are stored from 0-23, then converted to 12-hr time in main.convert_to_12_hour()
+    def find_common_availability(self) -> list:
+        """Return common times when all students in this group are available.
 
-        Return empty list if there are no common availabilities
+        Return empty list if there are no common availabilities.
+
+        Hours are stored from 0-23, then converted to 12-hr time in main.convert_to_12_hour().
         """
         common_availability = []
         for index in range(len(self.students) - 1):
@@ -115,3 +115,12 @@ class Students:
             if common_availability != []:
                 break
         return common_availability
+
+    def find_group_availabilities(self) -> list:
+        """Return avaialble times for all students in this object.
+
+        Return empty list if there are no common availabilities.
+
+        Hours are stored from 0-23, then converted to 12-hr time in main.convert_to_12_hour().
+        """
+        common_availability = []
