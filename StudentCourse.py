@@ -25,14 +25,14 @@ class Student:
     """
     name: str
     courses: list[Course]
-    availabiltiy: list[datetime]
+    availabiltiy: set
 
     def __init__(self, name: str, courses: list[Course]) -> None:
         self.name = name
         self.courses = courses
         self.availabiltiy = self.find_available_times()
 
-    def is_available(self, hangout: Hangout) -> bool:
+    def is_available_at(self, hangout: Hangout) -> bool:
         """Return whether student is out of classes at given hangout time.
         """
         for course in self.courses:
@@ -40,10 +40,12 @@ class Student:
                 return False
         return True
 
-    def find_available_times(self) -> set[int]:
-        """Return list of all hours between 8:00-10PM/22:00 where student is not in a class
+    def _find_available_times(self) -> set[int]:
+        """Return list of all hours between 8:00-10PM/22:00 where student is not in a class.
 
-        Hours are stored from 0-23, then converted to 12-hr time in main.convert_to_12_hour()
+        Return an empty set if there are no free hours in the day.
+
+        Hours are stored from 0-23, then converted to 12-hr time in main.convert_to_12_hour().
         """
         free_hours = set(range(0,24)) # range start inclusive, end exclusive
         for course in self.courses:
@@ -99,4 +101,17 @@ class Students:
                 available_students.append(student)
         return available_students
 
+    def find_group_availability(self) -> list:
+        """Return common times when all students in this group are available
+       
+        Hours are stored from 0-23, then converted to 12-hr time in main.convert_to_12_hour()
 
+        Return empty list if there are no common availabilities
+        """
+        common_availability = []
+        for index in range(len(self.students) - 1):
+            avail_set = self.students[index].availabiltiy
+            common_availability = avail_set.intersection(stud.availability for stud in self.students[index:])
+            if common_availability != []:
+                break
+        return common_availability
