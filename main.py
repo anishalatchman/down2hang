@@ -13,6 +13,7 @@ from icalendar import Calendar, Event
 from datetime import datetime
 from pytz import UTC # provides UTC timezone
 from StudentCourse import Course, Student
+from Hangout import Hangout
 
 def convert_ical_to_courses(filename: str) -> list[Course]:
     """Retrieve DESCRIPTION, DTSTART, DTEND for each BEGIN:VEVENT, 

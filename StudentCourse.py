@@ -3,10 +3,11 @@ WiCHacks 2022 Submission: down 2 hang scheduling solution
 
 Anisha Latchman
 
-Student and Course classes to be imported into main.py
+Contains classes to be imported into main.py
 """
 from dataclasses import dataclass
 from datetime import datetime
+from Hangout import Hangout
 
 @dataclass
 class Course:
@@ -55,24 +56,29 @@ class Student:
             return time_difference.minute <= 30
         return False
 
-@dataclass
-class Hangout:
-    """ Class which holds data about a proposed hangout date/time, inviter, and invitees.
-    """
-    date: datetime
-    inviter: Student
-    invitees: list[Student]
-
-    def does_course_conflict(self, course: tuple[datetime, datetime]) -> bool:
-        """Return whether course conflicts with this potential hangout time.
-        Return True if there is a conflict, False if there is not.
-        
-        Preconditions:
-            - Hangout/course start and end must be on the same weekday (Mon = 0, Sun = 6)
-            - Assume all courses start and end on a full hour
+    def is_available(self, hangout: Hangout) -> bool:
+        """Return whether student is out of classes at given hangout time.
         """
-        if self.date.weekday == course[0].weekday: # course occurs on same day
-            course_time_range = set(range(course[1].hour, course[2].hour))
-            return self.date.hour in course_time_range
-        else:
-            return False
+        for course in self.courses:
+            if hangout.has_course_conflict(hangout):
+                return False
+        return True
+
+@dataclass
+class Students:
+    """ Class which holds a collection of Students.
+    """
+    students: list[Student]
+
+    def find_whos_available(self, hangout: Hangout) -> list:
+        """Return list of all students in self who are available at the given datetime.
+
+        Return an empty list if no students are available.
+        """
+        available_students = []
+        for student in self.students:
+            if student.is_available_at(hangout):
+                available_students.append(student)
+        return available_students
+
+
