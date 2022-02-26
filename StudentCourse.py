@@ -18,13 +18,38 @@ class Course:
     start: datetime
     end: datetime
 
-@dataclass
 class Student:
     """ Class which holds data about a student's name, list of courses, and list of available times.
+
+    Need to initialise with empty availability list, then update afterwards
     """
     name: str
     courses: list[Course]
-    availabiltiy: list[datetime] # might not need this
+    availabiltiy: list[datetime]
+
+    def __init__(self, name: str, courses: list[Course]) -> None:
+        self.name = name
+        self.courses = courses
+        self.availabiltiy = self.find_available_times()
+
+    def is_available(self, hangout: Hangout) -> bool:
+        """Return whether student is out of classes at given hangout time.
+        """
+        for course in self.courses:
+            if hangout.has_course_conflict(hangout):
+                return False
+        return True
+
+    def find_available_times(self) -> set[int]:
+        """Return list of all hours between 8:00-10PM/22:00 where student is not in a class
+
+        Hours are stored from 0-23, then converted to 12-hr time in main.convert_to_12_hour()
+        """
+        free_hours = set(range(0,24)) # range start inclusive, end exclusive
+        for course in self.courses:
+            course_hours = range(course.start.hour, course.end.hour)
+            free_hours = free_hours.difference(course_hours)
+        return free_hours
 
     def find_next_course(self) -> Course:
         """Return next most upcoming course from current time.
@@ -56,13 +81,6 @@ class Student:
             return time_difference.minute <= 30
         return False
 
-    def is_available(self, hangout: Hangout) -> bool:
-        """Return whether student is out of classes at given hangout time.
-        """
-        for course in self.courses:
-            if hangout.has_course_conflict(hangout):
-                return False
-        return True
 
 @dataclass
 class Students:

@@ -34,3 +34,18 @@ def convert_ical_to_courses(filename: str) -> list[Course]:
 
 def create_student(name: str, courses: list[Course]) -> Student:
     return Student(name, courses)
+
+def convert_to_12_hour(hour: int) -> int:
+    """Return converted 24-hour time to 12-hour time.
+
+    AM and PM stamps are unneccsary and implied by time of use.
+
+    Preconditons:
+        - 0 <= hour <= 23
+        - 1 <= Return value <= 12
+    """
+    hour += 1 # start index at 1 instead of 0
+    if hour > 12:
+        return hour - 12
+    else:
+        return hour
