@@ -7,7 +7,6 @@ Contains classes to be imported into main.py
 """
 from dataclasses import dataclass
 from datetime import datetime
-from Hangout import Hangout
 
 @dataclass
 class Course:
@@ -83,7 +82,6 @@ class Student:
             return time_difference.minute <= 30
         return False
 
-
 @dataclass
 class Students:
     """ Class which holds a collection of Students.
@@ -116,11 +114,10 @@ class Students:
                 break
         return common_availability
 
-    def find_group_availabilities(self) -> list:
-        """Return avaialble times for all students in this object.
-
-        Return empty list if there are no common availabilities.
-
-        Hours are stored from 0-23, then converted to 12-hr time in main.convert_to_12_hour().
-        """
-        common_availability = []
+@dataclass
+class Hangout:
+    """ Class which holds data about a proposed hangout date/time, inviter, and invitees.
+    """
+    date: datetime
+    inviter: Student
+    invitees: list[Student]

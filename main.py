@@ -14,6 +14,13 @@ from datetime import datetime
 from pytz import UTC # provides UTC timezone
 from StudentCourse import Course, Student, Students
 from Hangout import Hangout
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "Congratulations?!!"
 
 def convert_ical_to_courses(filename: str) -> list[Course]:
     """Retrieve DESCRIPTION, DTSTART, DTEND for each BEGIN:VEVENT, 
@@ -66,3 +73,19 @@ def ouput_group_availabilities(group: Students) -> None:
         else:
             output = "f{student.name} is available at f{str_hours}"
 
+def has_course_conflict(hangout: Hangout, course: Course) -> bool:
+    """Return whether course conflicts with this potential hangout time.
+    Return True if there is a conflict, False if there is not.
+    
+    Preconditions:
+        - Hangout/course start and end must be on the same weekday (Mon = 0, Sun = 6)
+        - Assume all courses start and end on a full hour (0-23 hrs)
+    """
+    if hangout.date.weekday == course.start.weekday: # course occurs on same day
+        course_time_range = set(range(course.start.hour, course.start.hour))
+        return hangout.date.hour in course_time_range
+    else:
+        return False
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8080, debug=True)
