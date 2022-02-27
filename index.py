@@ -11,8 +11,9 @@ Languages/Packages used:
 
 Flask file (with HTML) to build front end of website
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, wtf
 import main
+from forms import AddFriend
 
 app = Flask(__name__)
 
@@ -20,7 +21,15 @@ app = Flask(__name__)
 def index():
     return render_template("index.html", students = [main.Student("Anisha", []), main.Student("Bob", [])])
 
+# @app.route("/add-friend")
+# def add_friend():
+#     form = AddFriend()
+#     return render_template("forms")
 
+# @app.route("/results")
+# def results():
+#     form = Results()
+#     return render_template("forms")
 
 
 if __name__ == "__main__":

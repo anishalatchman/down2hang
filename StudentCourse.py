@@ -31,7 +31,7 @@ class Student:
         self.courses = courses
         self.availabiltiy = self.find_available_times()
 
-    def _find_available_times(self) -> set[int]:
+    def find_available_times(self) -> set[int]:
         """Return list of all hours between 8:00-10PM/22:00 where student is not in a class.
 
         Return an empty set if there are no free hours in the day.

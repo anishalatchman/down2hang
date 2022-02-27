@@ -17,6 +17,10 @@ from pytz import UTC # provides UTC timezone
 from StudentCourse import Course, Student, Students, Hangout
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
+from flask import Flask, render_template #, wtf
+# from forms import AddFriend
+
+app = Flask(__name__)
 
 def choose_file() -> str:
     Tk().withdraw()
@@ -36,7 +40,7 @@ def convert_ical_to_courses(filename: str) -> list[Course]:
             name = component.get('DESCRIPTION').split('\n')[0]
             start = component.get('DTSTART').dt
             end = component.get('DTEND').dt
-        courses_so_far.append(Course(code, name, start, end))
+            courses_so_far.append(Course(code, name, start, end))
     sched.close()
     return courses_so_far
 
@@ -106,3 +110,25 @@ def find_whos_available(students: Students, hangout: Hangout) -> list:
         if is_available_at(hangout, student):
             available_students.append(student)
     return available_students
+
+# temporary tester variables
+my_courses = convert_ical_to_courses("test_cal.ics")
+my_student = create_student("Anisha", my_courses)
+all_students = Students([my_student])
+
+@app.route("/")
+def index():
+    return render_template("index.html", students = all_students)
+
+# @app.route("/add-friend")
+# def add_friend():
+#     form = AddFriend()
+#     return render_template("forms")
+
+# @app.route("/results")
+# def results():
+#     form = Results()
+#     return render_template("forms")
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8080, debug=True)
