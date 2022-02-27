@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Down 2 Hang</title>
 </head>
-<body>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
     <div class="nav-bar">
-        <a href="/index">Down 2 Hang</a>
+        <img src="d2h_logo.gif" style="max-width:10%;height:auto;" alt="" href="/index">
+        <a href="/about-us">about us</a>
     </div>
     <hr>
     <!-- Add friend button at top right of page -->
@@ -38,13 +39,11 @@
         <h1 class="title-txt">Who would you like to hang out with?</h1>
         <form>
             <!-- ids are used to link label to the checkboxes -->
-            <input type="checkbox" id=anyone name="0">
-            <label for="anyone"> {{student.name}}</label><br>
-            {%for student in students%}
-                <input type="checkbox" id={{student.name}} name={{student.name}}>
-                <label for={{student.name}}> {{student.name}}</label>
-            {$endfor%}
-            <br>
+            <input type="checkbox" id=everyone name="0">
+            <label for="everyone"> Everyone</label><br>
+            <!-- <input type="checkbox" id={{student.name}} name={{student.name}}>
+            <label for={{student.name}}> {{student.name}}</label><br> -->
+            
         </form>
 
         <h1 class="title-txt">When would you like to hang out?</h1>
@@ -58,6 +57,5 @@
             <input type="datetime-local" id="datetime" name="datetime">
             <input type="submit" value="Find Availability">
           </form>
-          {$endfor%}
 </body>
 </html>
