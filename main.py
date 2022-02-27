@@ -8,19 +8,20 @@ Languages/Packages used:
     - icalendar 4.0.9
     - datetime
     - pytz
+
+Functions that involve 2+ classes should be in main to avoid circularity
 """
 from icalendar import Calendar, Event
 from datetime import datetime
 from pytz import UTC # provides UTC timezone
-from StudentCourse import Course, Student, Students
-from Hangout import Hangout
-from flask import Flask
+from StudentCourse import Course, Student, Students, Hangout
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return "Congratulations?!!"
+def choose_file() -> str:
+    Tk().withdraw()
+    # return easygui.fileopenbox(msg="Select a file", filetypes="\*.ical")
+    return askopenfilename(title= "Select A File", filetypes=[("iCalendar Files", "*.ics"), ("All Files", "*.*")])
 
 def convert_ical_to_courses(filename: str) -> list[Course]:
     """Retrieve DESCRIPTION, DTSTART, DTEND for each BEGIN:VEVENT, 
@@ -87,5 +88,21 @@ def has_course_conflict(hangout: Hangout, course: Course) -> bool:
     else:
         return False
 
-if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True)
+def is_available_at(hangout: Hangout, student: Student) -> bool:
+    """Return whether student is out of classes at this hangout time.
+    """
+    for course in student.courses:
+        if has_course_conflict(hangout):
+            return False
+    return True
+
+def find_whos_available(students: Students, hangout: Hangout) -> list:
+    """Return list of everyone in students who are available at the given hangout time.
+
+    Return an empty list if no students are available.
+    """
+    available_students = []
+    for student in students.students:
+        if is_available_at(hangout, student):
+            available_students.append(student)
+    return available_students

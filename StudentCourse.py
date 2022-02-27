@@ -31,14 +31,6 @@ class Student:
         self.courses = courses
         self.availabiltiy = self.find_available_times()
 
-    def is_available_at(self, hangout: Hangout) -> bool:
-        """Return whether student is out of classes at given hangout time.
-        """
-        for course in self.courses:
-            if hangout.has_course_conflict(hangout):
-                return False
-        return True
-
     def _find_available_times(self) -> set[int]:
         """Return list of all hours between 8:00-10PM/22:00 where student is not in a class.
 
@@ -87,17 +79,6 @@ class Students:
     """ Class which holds a collection of Students.
     """
     students: list[Student]
-
-    def find_whos_available(self, hangout: Hangout) -> list:
-        """Return list of all students in self who are available at the given datetime.
-
-        Return an empty list if no students are available.
-        """
-        available_students = []
-        for student in self.students:
-            if student.is_available_at(hangout):
-                available_students.append(student)
-        return available_students
 
     def find_common_availability(self) -> list:
         """Return common times when all students in this group are available.

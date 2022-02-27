@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Down 2 Hang</title>
+</head>
+<body>
+    <!-- Add friend button at top right of page -->
+    <div>
+    <form action="">
+        <label for="choose-file">+ Add friend</label>
+        <input type="file" id="choose-file" name="choose-file">
+    </form>
+    </div>
+
+    <!-- Free right now status card -->
+    <div class="card">
+        <h1 class="'title-txt">Hmm... seems like everyone is busy right now. 
+            Try planning a hangout to see when your friends are free!
+        </h1>
+        <p class="paragraph-txt">
+            This text should be hidden at start
+        </p>
+        <form action="">
+            <input type="submit" value="Send a message">
+        </form>
+    </div>
+
+    <!-- Plan a hangout card -->
+    <h1 class="'title-txt">Plan a hangout</h1>
+    <div class="card">
+        <h1 class="title-txt">Who would you like to hang out with?</h1>
+        <form>
+            <!-- ids are used to link label to the checkboxes -->
+            <input type="checkbox" id=anyone name="0">
+            <label for="anyone"> {{student.name}}</label><br>
+            {%for student in students%}
+            <input type="checkbox" id={{student.name}} name="0">
+            <label for="{{student.name}}"> {{student.name}}</label><br>
+            {$endfor%}
+        </form>
+
+        <h1 class="title-txt">When would you like to hang out?</h1>
+        <form action = "">
+            <input type="checkbox" id="unsure-box" name="unsure">
+            <label for="unsure-box"> Unsure</label><br>
+        </form>
+
+        <!-- calender input field -->
+        <form action="">
+            <input type="datetime-local" id="datetime" name="datetime">
+            <input type="submit" value="Find Availability">
+          </form>
+    </div>
+</body>
+</html>
