@@ -1,6 +1,8 @@
 # Down 2 Hang?
 A modern solution to group scheduling at the University of Toronto. 🏙️
 
+Devpost submission link: https://devpost.com/software/down-2-hang
+
 # The problem 🔴
 Socialization is an important part of the university experience. Many freshman students build strong group relationships during frosh week, but hanging out in groups becomes a challenge when school starts and friends have different course schedules. It takes endless messaging back and forth to find a time when everyone in a group is free and down to hang out. Enter us.
 
